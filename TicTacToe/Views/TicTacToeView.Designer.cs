@@ -28,12 +28,40 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TicTacToeView));
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.SuspendLayout();
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.Location = new System.Drawing.Point(345, 75);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(208, 200);
+            this.panel1.TabIndex = 0;
+            // 
+            // TicTacToeView
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "Form1";
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(593, 405);
+            this.Controls.Add(this.panel1);
+            this.Name = "TicTacToeView";
+            this.Text = "Tic Tac Toe by Dreggjarnar";
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TicTacToeView_Click);
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.Panel panel1;
+
+
+
+
     }
 }
 
