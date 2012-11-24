@@ -27,6 +27,12 @@ namespace TicTacToe
             DrawPanels();
         }
 
+        private void ClearBoard(object sender, EventArgs e)
+        {
+            Array.Clear(_tictactoe, 0, _tictactoe.Length);
+            Invalidate();
+        }
+
         private void tictactoePainter(object sender, PaintEventArgs e)
         {
             Graphics g = this.CreateGraphics();
@@ -137,6 +143,9 @@ namespace TicTacToe
                 Controls.Add(panel);
             }
         }
+
+       
+
 
         
 

@@ -29,7 +29,18 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TicTacToeView));
+            this.btnClear = new System.Windows.Forms.Button();
             this.SuspendLayout();
+            // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(434, 124);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(129, 57);
+            this.btnClear.TabIndex = 0;
+            this.btnClear.Text = "Ný leikur";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.ClearBoard);
             // 
             // TicTacToeView
             // 
@@ -38,6 +49,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(593, 405);
+            this.Controls.Add(this.btnClear);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "TicTacToeView";
@@ -48,6 +60,8 @@
         }
 
         #endregion
+
+        private System.Windows.Forms.Button btnClear;
 
 
 
