@@ -72,23 +72,35 @@ namespace TicTacToe
                 for (int i = 0; i < 3; i++)
                 {
                     sumVertical += _tictactoe[i * 3 + j];
-                    sumHorizontal += _tictactoe[j*3 + i];
+                    sumHorizontal += _tictactoe[j * 3 + i];
                     
                 }
-                if (Math.Abs(sumVertical) == 3) { GameOver(); return; }
-                if (Math.Abs(sumHorizontal) == 3) { GameOver(); return; }
+                if (Math.Abs(sumVertical) == 3) { GameOver(sumVertical); return; }
+                if (Math.Abs(sumHorizontal) == 3) { GameOver(sumHorizontal); return; }
                 sumDiagonal1 += _tictactoe[j * 4];
                 sumDiagonal2 += _tictactoe[j * 2 + 2];
                 sumVertical = 0;
                 sumHorizontal = 0;
             }
-            if (Math.Abs(sumDiagonal1) == 3) { GameOver(); return; }
-            if (Math.Abs(sumDiagonal2) == 3) { GameOver(); return; }
+            if (Math.Abs(sumDiagonal1) == 3) { GameOver(sumDiagonal1); return; }
+            if (Math.Abs(sumDiagonal2) == 3) { GameOver(sumDiagonal2); return; }
+            if (_tictactoe.All(element => Math.Abs(element) == 1)) { GameOver(0); return; }
         }
 
-        private void GameOver()
+        private void GameOver(int sum)
         {
-            MessageBox.Show("Game Over");
+            if (sum < 0)
+            {
+                MessageBox.Show("Siggi vann");
+            }
+            if (sum > 0)
+            {
+                MessageBox.Show("Davíð vann");
+            }
+            if (sum == 0)
+            {
+                MessageBox.Show("Jafntefli");
+            }
             NewGame();
         }
 
