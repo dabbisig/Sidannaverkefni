@@ -12,12 +12,12 @@ namespace TicTacToe
 {
     public partial class TicTacToeView : Form
     {
-        private int[,] _tictactoe = new int[3, 3];
+        private int[] _tictactoe = new int[9];
         private int _linewidth = 10;
         private int _margin = 20;
         private int _margin1 = 20;
         private int _square = 100;
-        private Panel[,] _panels = new Panel[3,3];
+        private Panel[] _panels = new Panel[9];
         private bool player;
                 
         public TicTacToeView()
@@ -47,53 +47,85 @@ namespace TicTacToe
         {
             var panelName = panel.Name;
             var i = Convert.ToInt32(panelName.Substring(0, 1));
-            var j = Convert.ToInt32(panelName.Substring(1, 1));
             
             if (player)
             {
-                _tictactoe[i, j] = 1;
+                _tictactoe[i] = 1;
                 DrawCross(panel);
             }
             else
             {
-                _tictactoe[i, j] = -1;
+                _tictactoe[i] = -1;
                 DrawCircle(panel);
             }
-
+            CheckGameStatus();
             player = !player;
         }
 
-        private void ComputerPlay()
+        private void CheckGameStatus()
         {
-            int sumHor = 0;
-            int sumVer = 0;
-            int sumDia1 = 0;
-            int sumDia2 = 0;
+            int sum = 0;
             for (int i = 0; i < 3; i++)
             {
-                sumDia1 += _tictactoe[i, i];
-                sumDia2 += _tictactoe[i, 2 - i];
-                sumHor = 0;
-                sumVer = 0;
-                for (int j = 0; j < 3; j++)
-                {
-                    sumHor += _tictactoe[i, j];
-                    if (Math.Abs(sumHor) == 3)
-                    sumVer += _tictactoe[j, i];
-
-                }
-                
+                sum += _tictactoe[i];
             }
-            
-            //DrawCross();
+            if (Math.Abs(sum) == 3) { GameOver(); return; }
+            sum = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                sum += _tictactoe[i+3];
+            }
+            if (Math.Abs(sum) == 3) { GameOver(); return; }
+            sum = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                sum += _tictactoe[i+6];
+            }
+            if (Math.Abs(sum) == 3) { GameOver(); return; }
+            sum = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                sum += _tictactoe[i*3];
+            }
+            if (Math.Abs(sum) == 3) { GameOver(); return; }
+            sum = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                sum += _tictactoe[i*3 + 1];
+            }
+            if (Math.Abs(sum) == 3) { GameOver(); return; }
+            sum = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                sum += _tictactoe[i*3 + 2];
+            }
+            if (Math.Abs(sum) == 3) { GameOver(); return; }
+            sum = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                sum += _tictactoe[i*4];
+            }
+            if (Math.Abs(sum) == 3) { GameOver(); return; }
+            sum = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                sum += _tictactoe[i*2 + 2];
+            }
+            if (Math.Abs(sum) == 3) { GameOver(); return; }
+            sum = 0;
+        
+        }
+
+        private void GameOver()
+        {
+            MessageBox.Show("Game Over");
         }
 
         private void TicTacToeView_Click(object sender, MouseEventArgs e)
         {
             var panelName = (sender as Panel).Name;
             var i = Convert.ToInt32(panelName.Substring(0, 1));
-            var j = Convert.ToInt32(panelName.Substring(1, 1));
-            if (_tictactoe[i,j] == 0)
+            if (_tictactoe[i] == 0)
             {
                 
                 play(sender as Panel);
@@ -119,20 +151,21 @@ namespace TicTacToe
 
         private void PopulatePanels()
         {
-            for (int i = 0; i < 3; i++)
+
+            for (int i = 0; i < 9; i++)
             {
-                for (int j = 0; j < 3; j++)
-                {
-                    _panels[i, j] = new Panel 
+                _panels[i] = new Panel 
                     {
-                        Name = i.ToString() + j.ToString(),
+                        
+                        Name = i.ToString(),
                         Size = new System.Drawing.Size(_square, _square),
-                        Location = new Point(_margin + i * (_square + _linewidth), _margin + j * (_square + _linewidth)),
+                        Location = new Point(_margin + i % 3 * (_square + _linewidth), _margin + (i/3) * (_square + _linewidth)),
                         BackColor = System.Drawing.Color.Transparent,
 
                     };
-                }
+            
             }
+            
         }
 
         private void DrawPanels()
