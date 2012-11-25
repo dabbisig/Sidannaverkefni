@@ -29,8 +29,7 @@ namespace TicTacToe
 
         private void ClearBoard(object sender, EventArgs e)
         {
-            Array.Clear(_tictactoe, 0, _tictactoe.Length);
-            Invalidate();
+            NewGame();
         }
 
         private void tictactoePainter(object sender, PaintEventArgs e)
@@ -64,61 +63,39 @@ namespace TicTacToe
 
         private void CheckGameStatus()
         {
-            int sum = 0;
-            for (int i = 0; i < 3; i++)
+            int sumVertical = 0;
+            int sumHorizontal = 0;
+            int sumDiagonal1 = 0;
+            int sumDiagonal2 = 0;
+            for (int j = 0; j < 3; j++)
             {
-                sum += _tictactoe[i];
+                for (int i = 0; i < 3; i++)
+                {
+                    sumVertical += _tictactoe[i * 3 + j];
+                    sumHorizontal += _tictactoe[j*3 + i];
+                    
+                }
+                if (Math.Abs(sumVertical) == 3) { GameOver(); return; }
+                if (Math.Abs(sumHorizontal) == 3) { GameOver(); return; }
+                sumDiagonal1 += _tictactoe[j * 4];
+                sumDiagonal2 += _tictactoe[j * 2 + 2];
+                sumVertical = 0;
+                sumHorizontal = 0;
             }
-            if (Math.Abs(sum) == 3) { GameOver(); return; }
-            sum = 0;
-            for (int i = 0; i < 3; i++)
-            {
-                sum += _tictactoe[i+3];
-            }
-            if (Math.Abs(sum) == 3) { GameOver(); return; }
-            sum = 0;
-            for (int i = 0; i < 3; i++)
-            {
-                sum += _tictactoe[i+6];
-            }
-            if (Math.Abs(sum) == 3) { GameOver(); return; }
-            sum = 0;
-            for (int i = 0; i < 3; i++)
-            {
-                sum += _tictactoe[i*3];
-            }
-            if (Math.Abs(sum) == 3) { GameOver(); return; }
-            sum = 0;
-            for (int i = 0; i < 3; i++)
-            {
-                sum += _tictactoe[i*3 + 1];
-            }
-            if (Math.Abs(sum) == 3) { GameOver(); return; }
-            sum = 0;
-            for (int i = 0; i < 3; i++)
-            {
-                sum += _tictactoe[i*3 + 2];
-            }
-            if (Math.Abs(sum) == 3) { GameOver(); return; }
-            sum = 0;
-            for (int i = 0; i < 3; i++)
-            {
-                sum += _tictactoe[i*4];
-            }
-            if (Math.Abs(sum) == 3) { GameOver(); return; }
-            sum = 0;
-            for (int i = 0; i < 3; i++)
-            {
-                sum += _tictactoe[i*2 + 2];
-            }
-            if (Math.Abs(sum) == 3) { GameOver(); return; }
-            sum = 0;
-        
+            if (Math.Abs(sumDiagonal1) == 3) { GameOver(); return; }
+            if (Math.Abs(sumDiagonal2) == 3) { GameOver(); return; }
         }
 
         private void GameOver()
         {
             MessageBox.Show("Game Over");
+            NewGame();
+        }
+
+        private void NewGame()
+        {
+            Array.Clear(_tictactoe, 0, _tictactoe.Length);
+            Invalidate();
         }
 
         private void TicTacToeView_Click(object sender, MouseEventArgs e)
