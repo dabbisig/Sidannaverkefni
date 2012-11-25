@@ -6,17 +6,15 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using TicTacToe.Core.ExtensionMethods;
+using TicTacToe.Core;
+using TicTacToe.Core.Entities;
 
 namespace TicTacToe
 {
     public partial class TicTacToeView : Form
     {
+        private DrawTicTacToe draw = new DrawTicTacToe();
         private int[] _tictactoe = new int[9];
-        private int _linewidth = 10;
-        private int _margin = 20;
-        private int _margin1 = 20;
-        private int _square = 100;
         private Panel[] _panels = new Panel[9];
         private bool _player;
         private string _player1;
@@ -35,12 +33,7 @@ namespace TicTacToe
 
         private void tictactoePainter(object sender, PaintEventArgs e)
         {
-            Graphics g = this.CreateGraphics();
-            Pen _pen = new Pen(Color.Black, _linewidth);
-            g.DrawLine(_pen, new Point(_margin + _square + _linewidth / 2, _margin), new Point(_margin + _square + _linewidth / 2, _margin + 3 * _square + 2 * _linewidth));
-            g.DrawLine(_pen, new Point(_margin + 2 * _square + _linewidth + _linewidth / 2, _margin), new Point(_margin + 2 * _square + _linewidth + _linewidth / 2, _margin + 3 * _square + 2 * _linewidth));
-            g.DrawLine(_pen, new Point(_margin, _margin + _square + _linewidth / 2), new Point(_margin + 3 * _square + 2 * _linewidth, _margin + _square + _linewidth / 2));
-            g.DrawLine(_pen, new Point(_margin, _margin + 2 * _square + _linewidth + _linewidth / 2), new Point(_margin + 3 * _square + 2 * _linewidth, _margin + 2 * _square + _linewidth + _linewidth / 2));
+            draw.DrawBoard(sender as Form);
         }
     
         private void play(Panel panel)
@@ -51,12 +44,12 @@ namespace TicTacToe
             if (_player)
             {
                 _tictactoe[i] = 1;
-                DrawCross(panel);
+                draw.DrawCross(panel);
             }
             else
             {
                 _tictactoe[i] = -1;
-                DrawCircle(panel);
+                draw.DrawCircle(panel);
             }
             CheckGameStatus();
             _player = !_player;
@@ -127,34 +120,20 @@ namespace TicTacToe
             }
         }
 
-        private void DrawCross(Panel panel)
-        {
-            
-            Graphics g = panel.CreateGraphics();
-            Pen _pen = new Pen(Color.Black, _linewidth);
-            g.DrawLine(_pen, new Point(_margin1, _margin1), new Point(_square - _margin1, _square - _margin1));
-            g.DrawLine(_pen, new Point(_margin1, _square - _margin1), new Point(_square - _margin1, _margin1));
-           
-        }
-
-        private void DrawCircle(Panel panel)
-        {
-            Graphics g = panel.CreateGraphics();
-            Pen _pen = new Pen(Color.Black, _linewidth);
-            g.DrawEllipse(_pen, _margin1, _margin, _square - 2*_margin1, _square - 2*_margin1);
-        }
-
         private void PopulatePanels()
         {
-
+            var param = new TicTacToeParameters();
+            var margin = param.outerMargin;
+            var square = param.square;
+            var linewidth = param.linewidth;
             for (int i = 0; i < 9; i++)
             {
                 _panels[i] = new Panel 
                     {
                         
                         Name = i.ToString(),
-                        Size = new System.Drawing.Size(_square, _square),
-                        Location = new Point(_margin + i % 3 * (_square + _linewidth), _margin + (i/3) * (_square + _linewidth)),
+                        Size = new System.Drawing.Size(square, square),
+                        Location = new Point(margin + i % 3 * (square + linewidth), margin + (i/3) * (square + linewidth)),
                         BackColor = System.Drawing.Color.Transparent,
 
                     };
