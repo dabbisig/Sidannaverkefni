@@ -18,7 +18,7 @@ namespace TicTacToe
         private int _margin1 = 20;
         private int _square = 100;
         private Panel[] _panels = new Panel[9];
-        private bool player;
+        private bool _player;
         private string _player1;
         private string _player2;
         private int _player1Score = 0;
@@ -48,7 +48,7 @@ namespace TicTacToe
             var panelName = panel.Name;
             var i = Convert.ToInt32(panelName.Substring(0, 1));
             
-            if (player)
+            if (_player)
             {
                 _tictactoe[i] = 1;
                 DrawCross(panel);
@@ -59,7 +59,7 @@ namespace TicTacToe
                 DrawCircle(panel);
             }
             CheckGameStatus();
-            player = !player;
+            _player = !_player;
         }
 
         private void CheckGameStatus()
@@ -113,6 +113,7 @@ namespace TicTacToe
         {
             Array.Clear(_tictactoe, 0, _tictactoe.Length);
             Invalidate();
+            _player = true;
             EnablePanels(true);
         }
 

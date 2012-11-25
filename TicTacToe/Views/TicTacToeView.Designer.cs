@@ -115,9 +115,9 @@
             this.pnlScoreBoard.Controls.Add(this.lblPlayer2);
             this.pnlScoreBoard.Controls.Add(this.lblPlayer1);
             this.pnlScoreBoard.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pnlScoreBoard.Location = new System.Drawing.Point(11, 350);
+            this.pnlScoreBoard.Location = new System.Drawing.Point(410, 53);
             this.pnlScoreBoard.Name = "pnlScoreBoard";
-            this.pnlScoreBoard.Size = new System.Drawing.Size(612, 76);
+            this.pnlScoreBoard.Size = new System.Drawing.Size(242, 138);
             this.pnlScoreBoard.TabIndex = 3;
             this.pnlScoreBoard.Visible = false;
             // 
@@ -125,7 +125,7 @@
             // 
             this.lblPlayer2.AutoSize = true;
             this.lblPlayer2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPlayer2.Location = new System.Drawing.Point(250, 0);
+            this.lblPlayer2.Location = new System.Drawing.Point(0, 50);
             this.lblPlayer2.Name = "lblPlayer2";
             this.lblPlayer2.Size = new System.Drawing.Size(0, 31);
             this.lblPlayer2.TabIndex = 3;
@@ -145,7 +145,7 @@
             // 
             this.lblDraws.AutoSize = true;
             this.lblDraws.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDraws.Location = new System.Drawing.Point(100, 40);
+            this.lblDraws.Location = new System.Drawing.Point(0, 100);
             this.lblDraws.Name = "lblDraws";
             this.lblDraws.Size = new System.Drawing.Size(0, 31);
             this.lblDraws.TabIndex = 4;
