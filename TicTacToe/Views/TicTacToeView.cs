@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using TicTacToe.Core;
 using TicTacToe.Core.Entities;
+using TicTacToe.Core.ExtensionMethods;
 
 namespace TicTacToe
 {
@@ -57,28 +58,8 @@ namespace TicTacToe
 
         private void CheckGameStatus()
         {
-            int sumVertical = 0;
-            int sumHorizontal = 0;
-            int sumDiagonal1 = 0;
-            int sumDiagonal2 = 0;
-            for (int j = 0; j < 3; j++)
-            {
-                for (int i = 0; i < 3; i++)
-                {
-                    sumVertical += _tictactoe[i * 3 + j];
-                    sumHorizontal += _tictactoe[j * 3 + i];
-                    
-                }
-                if (Math.Abs(sumVertical) == 3) { GameOver(sumVertical); return; }
-                if (Math.Abs(sumHorizontal) == 3) { GameOver(sumHorizontal); return; }
-                sumDiagonal1 += _tictactoe[j * 4];
-                sumDiagonal2 += _tictactoe[j * 2 + 2];
-                sumVertical = 0;
-                sumHorizontal = 0;
-            }
-            if (Math.Abs(sumDiagonal1) == 3) { GameOver(sumDiagonal1); return; }
-            if (Math.Abs(sumDiagonal2) == 3) { GameOver(sumDiagonal2); return; }
-            if (_tictactoe.All(element => Math.Abs(element) == 1)) { GameOver(0); return; }
+            var status = _tictactoe.CheckStatus();
+            if (status != null) { GameOver(Convert.ToInt32(status)); };
         }
 
         private void GameOver(int sum)
