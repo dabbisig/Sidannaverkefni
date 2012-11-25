@@ -19,17 +19,18 @@ namespace TicTacToe
         private int _square = 100;
         private Panel[] _panels = new Panel[9];
         private bool player;
+        private string _player1;
+        private string _player2;
+        private int _player1Score = 0;
+        private int _player2Score = 0;
+        private int _draws = 0;
                 
         public TicTacToeView()
         {
             InitializeComponent();
             PopulatePanels();
             DrawPanels();
-        }
-
-        private void ClearBoard(object sender, EventArgs e)
-        {
-            NewGame();
+            EnablePanels(false);
         }
 
         private void tictactoePainter(object sender, PaintEventArgs e)
@@ -91,16 +92,20 @@ namespace TicTacToe
         {
             if (sum < 0)
             {
-                MessageBox.Show("Siggi vann");
+                MessageBox.Show(_player1 + " vann");
+                _player1Score++;
             }
             if (sum > 0)
             {
-                MessageBox.Show("Davíð vann");
+                MessageBox.Show(_player2 + " vann");
+                _player2Score++;
             }
             if (sum == 0)
             {
                 MessageBox.Show("Jafntefli");
+                _draws++;
             }
+            RenderScore();
             NewGame();
         }
 
@@ -108,6 +113,7 @@ namespace TicTacToe
         {
             Array.Clear(_tictactoe, 0, _tictactoe.Length);
             Invalidate();
+            EnablePanels(true);
         }
 
         private void TicTacToeView_Click(object sender, MouseEventArgs e)
@@ -116,7 +122,6 @@ namespace TicTacToe
             var i = Convert.ToInt32(panelName.Substring(0, 1));
             if (_tictactoe[i] == 0)
             {
-                
                 play(sender as Panel);
             }
         }
@@ -166,10 +171,37 @@ namespace TicTacToe
             }
         }
 
-       
+        private void EnablePanels(bool enable)
+        {
+            for(int i = 0; i < _tictactoe.Length; i++)
+            {
+                _tictactoe[i] = enable ? 0 : 1;
+            }
+        }
 
+        private void PlayerConfirm_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtPlayer1.Text) || string.IsNullOrEmpty(txtPlayer2.Text))
+            {
+                MessageBox.Show("Sláðu inn bæði nöfn keppenda");
+                return;
+            }
+            _player1 = txtPlayer1.Text;
+            _player2 = txtPlayer2.Text;
+            pnlPlayers.Visible = false;
+            pnlScoreBoard.Visible = true;
+            RenderScore();
+            EnablePanels(true);
+            
+        }
 
+        private void RenderScore()
+        {
+            lblPlayer1.Text = _player1 + ": " + _player1Score;
+            lblPlayer2.Text = _player2 + ": " + _player2Score;
+            lblDraws.Text = "Jafntefli: " + _draws;
+            
+        }
         
-
     }
 }
