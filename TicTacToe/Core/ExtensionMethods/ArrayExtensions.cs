@@ -24,7 +24,7 @@ namespace TicTacToe.Core.ExtensionMethods
                 if (Math.Abs(sumVertical) == 3) { return sumVertical; }
                 if (Math.Abs(sumHorizontal) == 3) { return sumHorizontal; }
                 sumDiagonal1 += self[j * 4];
-                sumDiagonal2 += self[j * 2 + 2];
+                sumDiagonal2 += self[2*(j+1)];
                 sumVertical = 0;
                 sumHorizontal = 0;
             }
