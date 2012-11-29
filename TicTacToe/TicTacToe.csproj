@@ -109,7 +109,9 @@
     <None Include="TicTacToe_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BuildScript.xml" />
+    <Content Include="BuildScript.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">

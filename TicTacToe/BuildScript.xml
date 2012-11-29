@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Run">
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="C:\Windows\Microsoft.NET\Framework\v3.5\Microsoft.CSharp.targets" />
   <Import Project="C:\Program Files\MSBuild\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
   
   <PropertyGroup>
@@ -37,19 +37,14 @@
   <Target Name="Compile" DependsOnTargets="Unzip">
     <Message Text="Compiling TicTacToe" />
     <MSBuild Projects="$(CompileDirectory)/Sidannaverkefni-master/TicTacToe/TicTacToe.csproj" Properties="Configuration=Release"/>
-    <MSBuild Projects="$(CompileDirectory)/Sidannaverkefni-master/TicTacToeTest/TicTacToeTest.csproj" Properties="Configuration=Release"/>
-  </Target>
+   </Target>
 
-  <!--<Target Name="RunTests">
-    <Exec Command='"C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\mstest.exe" /testcontainer:"$(MSBuildStartupDirectory)\OutDir\MsBuildSample.WebApp.Tests.dll" /testcontainer:"$(MSBuildStartupDirectory)\OutDir\AnotherTestProject.dll"' />
-  </Target>-->
+  <Target Name="RunTests" DependsOnTargets="Compile">
+    <Message Text="Running Unit tests" />
+    <Exec Command='"C:\Program Files\Microsoft Visual Studio 10.0\Common7\IDE\mstest.exe" /testcontainer:"C:\Users\Sigurður\Documents\Visual Studio 2010\Projects\TicTacToe\TicTacToeTest\bin\Debug\TicTacToeTest.dll"' />
+  </Target>
   
-  <!--<Target Name="RunTest" >
-    <Message  Text="Running Unit Tests on TicTacToe" />
-    <MSBuild Projects="C:\Users\Sigurður\Documents\Visual Studio 2010\Projects\TicTacToe\TicTacToeTest\TicTacToeTest.csproj" />
-  </Target>-->
-  
-  <Target Name="Export" DependsOnTargets="Compile">
+  <Target Name="Export" DependsOnTargets="RunTests">
     <Message Text="Exporting TicTacToe" />
     <Copy SourceFiles="$(CompileDirectory)\Sidannaverkefni-master\TicTacToe\bin\Release\tictactoe.exe" DestinationFolder="$(Desktop)" />
     <RemoveDir Directories="$(CompileDirectory)" ContinueOnError="true" />
@@ -62,8 +57,7 @@
     <CallTarget Targets="Download" />
     <CallTarget Targets="Unzip" />
     <CallTarget Targets="Compile" />
-    <!--<CallTarget Targets="CompileTest" />-->
-    <!--<CallTarget Targets="RunTest" />-->
+    <CallTarget Targets="RunTests" />
     <CallTarget Targets="Export" />
   </Target>
 
