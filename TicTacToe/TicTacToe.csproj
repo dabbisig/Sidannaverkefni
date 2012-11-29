@@ -77,7 +77,6 @@
     <Compile Include="Core\DrawTicTacToe.cs" />
     <Compile Include="Core\Entities\TicTacToeParameters.cs" />
     <Compile Include="Core\ExtensionMethods\ArrayExtensions.cs" />
-    <Compile Include="Core\ITicTacToe.cs" />
     <Compile Include="Views\TicTacToeView.cs">
       <SubType>Form</SubType>
     </Compile>
