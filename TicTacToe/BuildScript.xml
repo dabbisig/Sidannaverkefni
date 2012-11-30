@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Run">
+  <Import Project="C:\Windows\Microsoft.NET\Framework\v3.5\Microsoft.CSharp.targets" />
+  <Import Project="C:\Program Files\MSBuild\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
+  
+  <PropertyGroup>
+    <CompileDirectory>C:/TicTacToeTemp</CompileDirectory>
+    <OutputDirectory>C:/TicTacToe</OutputDirectory>
+    <DownloadFile>tictactoe.zip</DownloadFile>
+    <Desktop>C:\Users\Sigurður\Desktop</Desktop>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ToDelete Include="$(CompileDirectory)\**\*.*" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+  </ItemGroup>
+  
+  <Target Name="CreateDirectory">
+    <Message Text="Setting up tictactoe directory" />
+    <Delete Files="@(ToDelete)" />
+    <RemoveDir Directories="$(OutputDirectory)" />
+    <MakeDir Directories="$(OutputDirectory)" />
+    <MakeDir Directories="$(CompileDirectory)" />
+  </Target>
+  
+  <Target Name="Download" DependsOnTargets="CreateDirectory">
+    <Message Text="Downloading files for tictactoe" />
+    <WebDownload FileUri="https://github.com/dreggjarnar/Sidannaverkefni/archive/master.zip" FileName="$(CompileDirectory)/$(DownloadFile)" />
+  </Target>
+  
+  <Target Name="Unzip" DependsOnTargets="Download">
+    <Message Text="Unzipping project" />
+    <Unzip ZipFileName="$(DownloadFile)" TargetDirectory="$(CompileDirectory)" />
+    <Message Text="Deleting zipfile" />
+    <Delete Files="$(CompileDirectory)/$(DownloadFile)" />
+  </Target>
+  
+  <Target Name="Compile" DependsOnTargets="Unzip">
+    <Message Text="Compiling TicTacToe" />
+    <MSBuild Projects="$(CompileDirectory)/Sidannaverkefni-master/TicTacToe/TicTacToe.csproj" Properties="Configuration=Release" />
+   </Target>
+
+  <Target Name="CompileTest" DependsOnTargets="Compile">
+    <Message Text="Compiling TicTacToeTest" />
+    <MSBuild Projects="$(CompileDirectory)/Sidannaverkefni-master/TicTacToeTest/TicTacToeTest.csproj" Properties="Configuration=Release" />
+  </Target>
+
+  <Target Name="RunTests" DependsOnTargets="Compile">
+    <Message Text="Running Unit tests" />
+    <Exec Command='"C:\Program Files\Microsoft Visual Studio 10.0\Common7\IDE\mstest.exe" /testcontainer:"C:\Users\Sigurður\Documents\Visual Studio 2010\Projects\TicTacToe\TicTacToeTest\bin\Debug\TicTacToeTest.dll"' />
+  </Target>
+  
+  
+  
+  <Target Name="Export" DependsOnTargets="RunTests">
+    <Message Text="Exporting TicTacToe" />
+    <Copy SourceFiles="$(CompileDirectory)\Sidannaverkefni-master\TicTacToe\bin\Release\tictactoe.exe" DestinationFolder="$(Desktop)" />
+    <RemoveDir Directories="$(CompileDirectory)" ContinueOnError="true" />
+    
+  </Target>
+  
+  <Target Name="Run">
+    <Message Text="Running buildscript for tictactoe" />
+    <CallTarget Targets="CreateDirectory" />
+    <CallTarget Targets="Download" />
+    <CallTarget Targets="Unzip" />
+    <CallTarget Targets="Compile" />
+    <CallTarget Targets="CompileTest" />
+    <CallTarget Targets="RunTests" />
+    <CallTarget Targets="Export" />
+  </Target>
+
+</Project>
